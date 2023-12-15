@@ -48,7 +48,7 @@ function draw() {
   frameRate(1000)
   background(220);
 
-  end = func_bfs.next()
+  end = func_astar.next()
   world.draw();
 
   fill(160, 32, 240);

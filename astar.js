@@ -18,11 +18,16 @@ class AStar {
             }
         }
     }
-    heuristic(i, j, objectiveI, objectiveJ){
+    heuristic(i, j, objectiveI, objectiveJ, averageCost, curCost, objCost, isInSameTerrain){
         const dx = Math.abs(i - objectiveI)
         const dy = Math.abs(j - objectiveJ)
-        const dist = Math.sqrt(dx * dx + dy * dy) 
-        return dist * this.averageCost
+        const dist = Math.sqrt(dx * dx + dy * dy)
+        let factor = 0
+        factor = averageCost
+        
+        
+        
+        return dist * factor
     }
     *astar(world, start, objective){
         /*
@@ -30,17 +35,7 @@ class AStar {
             A estratégia é de custo uniforme, ou seja, o agente deve escolher sempre expandir o nó com menor custo
         */
         this.reset()
-        let total = 0
-        for(let i = 0; i < this.res; i++){
-            for(let j = 0; j < this.res; j++) {
-                if(world.terrain[i][j] == world.types['obstaculo']) this.averageCost += 1;
-                else this.averageCost += world.costs[world.terrain[i][j]];
-                total += 1
-            }
-        }
-        this.averageCost /= total
-        this.averageCost = ceil(this.averageCost)
-        print(this.averageCost)
+        
         let startI = start.x
         let startJ = start.y
         this.pqueue.push(new PQNode([startI, startJ], 0))
@@ -62,11 +57,18 @@ class AStar {
                 const terrain = world.terrain[ni][nj]
         
                 const nextCost = this.dist[i][j] + world.costs[terrain] 
-                const h = this.heuristic(ni, nj, objective.x, objective.y)
+                
 
                 if(nextCost < this.dist[ni][nj]){
                     this.dist[ni][nj] = nextCost
                     this.parent[ni][nj] = [i, j]
+                    const objTerrain = world.terrain[objective.x][objective.y]
+                    const h = this.heuristic(ni, nj, objective.x, objective.y, 
+                                             world.averageCost, 
+                                             world.costs[terrain], world.costs[objTerrain],
+                                             objTerrain == terrain)
+
+                    
                     this.pqueue.push(new PQNode([ni, nj], this.dist[ni][nj] + h))
                     world.terrain_status[ni][nj] = world.status['borda']
                 }

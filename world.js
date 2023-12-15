@@ -29,6 +29,7 @@ class World{
         this.costs[this.types['lama']]  = 5
         this.costs[this.types['agua']]  = 10
         this.costs[this.types['obstaculo']] = Infinity
+        this.averageCost = 0;
         this.generateTerrain();
     }
 
@@ -46,6 +47,7 @@ class World{
             for(let j = 0; j < this.res; j++){
                 const y = j * this.blockHeight;
                 this.terrain[i][j] = this.decideTerrain(noise(x * 0.005,  y * 0.005));
+                this.averageCost += this.costs[this.terrain[i][j]];
             }
         }
 
@@ -57,9 +59,11 @@ class World{
                 
                 if (noise(x * 0.05,  y * 0.05) < 0.33){
                     this.terrain[i][j] = this.types['obstaculo']
+                    this.averageCost += 1;
                 }
             }
         }
+        this.averageCost /= (this.res * this.res);
 
     }
     getNeighbors(i, j){
