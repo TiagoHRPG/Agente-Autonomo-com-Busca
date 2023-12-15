@@ -58,6 +58,7 @@ class BFS{
         }
         if (end == 0) end = -1
         yield end
+
     }
 
 

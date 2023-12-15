@@ -36,7 +36,13 @@ function setup() {
   func_bfs = bfs.bfs(world, new Node(agent.pos.x, agent.pos.y), food)
   func_uniform = uniform.uniform(world, new Node(agent.pos.x, agent.pos.y), food)
   func_astar = astar.astar(world, new Node(agent.pos.x, agent.pos.y), food)
+
 }
+
+var time = 0;
+var execute = 0;
+
+var i = 0
 
 function draw() {
   frameRate(1000)
@@ -50,7 +56,6 @@ function draw() {
   let pos_x = (food.x + 1/2) * world.blockWidth
   let pos_y = (food.y + 1/2) * world.blockWidth
   ellipse(pos_x, pos_y, agent.headSize, agent.headSize); 
-
 
   agent.draw(world);
 }
