@@ -25,7 +25,7 @@ class BFS{
         return (x >= 0 && x < this.res && y >= 0 && y < this.res);
     }
 
-    *bfs(world, startingNode, endNode){  // startingNode tem que ser do tipo Node
+    *search(world, startingNode, endNode){  // startingNode tem que ser do tipo Node
         const queue = [startingNode];
         var end = 0
         while (queue.length > 0) {

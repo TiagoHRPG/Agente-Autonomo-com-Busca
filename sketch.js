@@ -35,16 +35,16 @@ function setup() {
   uniform = new Uniform(world.res)
   astar = new AStar(world.res)
 
-  search_method = astar
+  search_method = bfs
+
+  func_search = search_method.search(world, new Node(agent.pos.x, agent.pos.y), food)
 
   // trocar o nome das funções por search e chamar search_method.search
-  func_bfs = bfs.bfs(world, new Node(agent.pos.x, agent.pos.y), food)
-  func_dfs = dfs.dfs(world, new Node(agent.pos.x, agent.pos.y), food)
-  func_uniform = uniform.uniform(world, new Node(agent.pos.x, agent.pos.y), food)
-  func_astar = astar.astar(world, new Node(agent.pos.x, agent.pos.y), food)
+  //func_bfs = bfs.se(world, new Node(agent.pos.x, agent.pos.y), food)
+  //func_dfs = dfs.dfs(world, new Node(agent.pos.x, agent.pos.y), food)
+  //func_uniform = uniform.uniform(world, new Node(agent.pos.x, agent.pos.y), food)
+  //func_astar = astar.astar(world, new Node(agent.pos.x, agent.pos.y), food)
 
-
-  func_search = func_astar
 }
 
 

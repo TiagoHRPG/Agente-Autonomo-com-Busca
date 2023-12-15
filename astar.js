@@ -28,7 +28,7 @@ class AStar {
 
         return dist * factor
     }
-    *astar(world, start, objective){
+    *search(world, start, objective){
         /*
             O agente deve procurar o objetivo no mapa e retornar o caminho como uma lista de blocos [(i, j)...]
             A estratégia é de custo uniforme, ou seja, o agente deve escolher sempre expandir o nó com menor custo

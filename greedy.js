@@ -29,7 +29,7 @@ class GreedySearch {
         return Math.abs(x - this.goal.x) + Math.abs(y - this.goal.y);  // Manhattan distance
     }
 
-    greedySearch(startingNode) {
+    search(startingNode) {
         const priorityQueue = new PriorityQueue(); // Talvez trocar por uma ja implementada?
 
         priorityQueue.enqueue(startingNode, this.heuristic(startingNode.x, startingNode.y));

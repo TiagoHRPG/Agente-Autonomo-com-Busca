@@ -28,7 +28,7 @@ class DFS{
         return (x >= 0 && x < this.res && y >= 0 && y < this.res);
     }
 
-    *dfs(world, startingNode, endNode){  // startingNode tem que ser do tipo Node
+    *search(world, startingNode, endNode){  // startingNode tem que ser do tipo Node
         const stack = [startingNode];
         var end = 0
         while (stack.length > 0) {
