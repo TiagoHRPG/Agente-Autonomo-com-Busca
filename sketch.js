@@ -1,3 +1,10 @@
+var time = 0;
+var execute = 0;
+// jkhidd 
+var i = 0
+var food;
+
+
 function setup() {
   let canva_width = 864
   let canva_height = 864
@@ -5,8 +12,31 @@ function setup() {
   createCanvas(canva_width, canva_height);
   
   
-  world = new World(canva_width, canva_height, 72)
-  agent = new Agent(world.blockWidth, int(random(world.res)), int(random(world.res)))
+  world = new World(canva_width, canva_height, 36)
+  let agentI = int(random(world.res))
+  let agentJ = int(random(world.res))
+  while(world.terrain[agentI][agentJ] == world.types['obstaculo']){
+    agentI = int(random(world.res))
+    agentJ = int(random(world.res))
+  }
+  agent = new Agent(world.blockWidth, agentI, agentJ);
+
+  let foodI = int(random(world.res))
+  let foodJ = int(random(world.res))
+  while(world.terrain[foodI][foodJ] == world.types['obstaculo']){
+    foodI = int(random(world.res))
+    foodJ = int(random(world.res))
+  }
+  food = new Node(foodI, foodJ)
+  
+  world.resetStatus()
+  bfs = new BFS(world.res);
+  uniform = new Uniform(world.res)
+  astar = new AStar(world.res)
+  func_bfs = bfs.bfs(world, new Node(agent.pos.x, agent.pos.y), food)
+  func_uniform = uniform.uniform(world, new Node(agent.pos.x, agent.pos.y), food)
+  func_astar = astar.astar(world, new Node(agent.pos.x, agent.pos.y), food)
+
 }
 
 var time = 0;
@@ -15,21 +45,18 @@ var execute = 0;
 var i = 0
 
 function draw() {
+  frameRate(1000)
   background(220);
 
-
-  if(millis() - time >= 2000){
-    if (i % 2 == 0) agent.move_unit(1, 0)
-    else agent.move_unit(0, 1)
-
-    time = millis()
-    i++
-  }
-  
-  
-  
-
+  end = func_bfs.next()
   world.draw();
+
+  fill(160, 32, 240);
+  stroke(255, 255, 255);
+  let pos_x = (food.x + 1/2) * world.blockWidth
+  let pos_y = (food.y + 1/2) * world.blockWidth
+  ellipse(pos_x, pos_y, agent.headSize, agent.headSize); 
+
   agent.draw(world);
 }
 
