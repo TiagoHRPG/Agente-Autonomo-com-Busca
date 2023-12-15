@@ -21,6 +21,7 @@ class Uniform {
         this.dist = []
         this.parent = []
         this.path = []
+        this.totalCost = 0
         for(let i = 0; i < this.res; i++){
             this.dist[i] = []
             this.parent[i] = []
@@ -38,7 +39,6 @@ class Uniform {
         */
         let startI = start.x
         let startJ = start.y
-        print(startI, startJ)
         this.pqueue.push(new PQNode([startI, startJ], 0))
         this.dist[startI][startJ] = 0   
         let end = 0
@@ -76,6 +76,7 @@ class Uniform {
         while(i != -1 && j != -1){
             path.push([i, j])
             let [pi, pj] = this.parent[i][j]
+            this.totalCost += world.costs[world.terrain[i][j]]
             i = pi
             j = pj
         }

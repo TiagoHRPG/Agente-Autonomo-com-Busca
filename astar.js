@@ -8,7 +8,7 @@ class AStar {
         this.dist = []
         this.parent = []
         this.path = []
-        this.averageCost = 0
+        this.totalCost = 0;
         for(let i = 0; i < this.res; i++){
             this.dist[i] = []
             this.parent[i] = []
@@ -25,8 +25,7 @@ class AStar {
         let factor = 0
         factor = averageCost
         
-        
-        
+
         return dist * factor
     }
     *astar(world, start, objective){
@@ -83,6 +82,7 @@ class AStar {
         while(i != -1 && j != -1){
             path.push([i, j])
             let [pi, pj] = this.parent[i][j]
+            this.totalCost += world.costs[world.terrain[i][j]]
             i = pi
             j = pj
         }

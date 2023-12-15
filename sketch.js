@@ -3,7 +3,7 @@ var execute = 0;
 // jkhidd 
 var i = 0
 var food;
-
+var func_search;
 
 function setup() {
   let canva_width = 864
@@ -36,19 +36,14 @@ function setup() {
   func_bfs = bfs.bfs(world, new Node(agent.pos.x, agent.pos.y), food)
   func_uniform = uniform.uniform(world, new Node(agent.pos.x, agent.pos.y), food)
   func_astar = astar.astar(world, new Node(agent.pos.x, agent.pos.y), food)
-
+  func_search = func_astar
 }
-
-var time = 0;
-var execute = 0;
-
-var i = 0
 
 function draw() {
   frameRate(1000)
   background(220);
 
-  end = func_astar.next()
+  end = func_search.next()
   world.draw();
 
   fill(160, 32, 240);
@@ -58,5 +53,6 @@ function draw() {
   ellipse(pos_x, pos_y, agent.headSize, agent.headSize); 
 
   agent.draw(world);
+  
 }
 
