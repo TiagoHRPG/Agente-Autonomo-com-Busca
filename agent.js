@@ -29,7 +29,6 @@ class Agent{
         let i = 0
         while (i < 4){
             if (millis() - time >= 2000){
-                print("here 1")
                 if ( i % 2 == 0) this.move_unit(1,0)
                 else this.move_unit(0, 1)
                 time = millis()

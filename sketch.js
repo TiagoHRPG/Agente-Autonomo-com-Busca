@@ -31,12 +31,14 @@ function setup() {
   
   world.resetStatus()
   bfs = new BFS(world.res);
+  dfs = new DFS(world.res)
   uniform = new Uniform(world.res)
   astar = new AStar(world.res)
   func_bfs = bfs.bfs(world, new Node(agent.pos.x, agent.pos.y), food)
+  func_dfs = dfs.dfs(world, new Node(agent.pos.x, agent.pos.y), food)
   func_uniform = uniform.uniform(world, new Node(agent.pos.x, agent.pos.y), food)
   func_astar = astar.astar(world, new Node(agent.pos.x, agent.pos.y), food)
-  func_search = func_astar
+  func_search = func_bfs
 }
 
 function draw() {

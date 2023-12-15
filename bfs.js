@@ -57,6 +57,21 @@ class BFS{
             yield end
         }
         if (end == 0) end = -1
+
+        let path = []
+        let [i, j] = [endNode.x, endNode.y]
+        while(i != -1 && j != -1){
+            path.push([i, j])
+            let [pi, pj] = [this.prev[i][j].x, this.prev[i][j].y]
+            this.totalCost += world.costs[world.terrain[i][j]]
+            i = pi
+            j = pj
+        }
+        this.path = path.reverse()     
+        for (let [i, j] of this.path){
+            world.terrain_status[i][j] = world.status['caminho']
+        } 
+
         yield end
 
     }
