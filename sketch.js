@@ -134,8 +134,7 @@ function regenerate(){
 function retry(){
   world.resetStatus()
   agent = new Agent(world.blockWidth, agent.originalPos.x, agent.originalPos.y);
-  if(animationEnd) foodCounter -= 1;
-  foodCounter = max(0, foodCounter)
+
   dropdown.selected('Selecione uma opção');
   started = false;
   
