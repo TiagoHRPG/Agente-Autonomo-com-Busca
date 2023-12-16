@@ -180,7 +180,7 @@ function draw() {
 }
 function drawCounter(){
   let textString = 'Comidas coletadas: ' + foodCounter;
-  textSize(18)
+  textSize(15)
   textAlign(CENTER, CENTER)
   print(textString, textWidth(textString))
   
