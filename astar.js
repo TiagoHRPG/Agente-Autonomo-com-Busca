@@ -46,6 +46,7 @@ class AStar {
             let node = this.pqueue.pop()
             const cost = node.cost
             const [i, j] = node.value
+            if(world.terrain_status[i][j] == world.status['explorado']) continue
             world.terrain_status[i][j] = world.status['atual']
         
             if (i == objective.x && j == objective.y){
