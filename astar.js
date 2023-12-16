@@ -23,7 +23,7 @@ class AStar {
         const dy = Math.abs(j - objectiveJ)
         const dist = Math.sqrt(dx * dx + dy * dy)
         let factor = 0
-        factor = averageCost
+        factor = randomGaussian(3/ ((1/averageCost) + (1/curCost) + (1/objCost)))
         
 
         return dist * factor

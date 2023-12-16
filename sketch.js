@@ -12,6 +12,7 @@ let buttonRetry;
 var foodCounter = 0;
 var animationEnd = 0;
 var method_cost = {};
+var method_time = {};
 var escolha;
 
 function setup() {
@@ -56,6 +57,13 @@ function setup() {
     'Guloso':         -1,
     'Custo uniforme': -1
   }
+  method_time = {
+    'BFS':            0,
+    'DFS':            0,
+    'A*':             0,
+    'Guloso':         0,
+    'Custo uniforme': 0
+  }
   // trocar o nome das funções por search e chamar search_method.search
   //func_bfs = bfs.se(world, new Node(agent.pos.x, agent.pos.y), food)
   //func_dfs = dfs.dfs(world, new Node(agent.pos.x, agent.pos.y), food)
@@ -98,7 +106,8 @@ function selecionarOpcao() {
   if(escolha == 'Custo uniforme') search_method = new Uniform(world.res);
   func_search = search_method.search(world, new Node(agent.pos.x, agent.pos.y), food);
   started = true;
-
+  method_cost[escolha] = -1
+  method_time[escolha] = 0
 
 }
 function regenerate(){
@@ -114,6 +123,13 @@ function regenerate(){
     'Guloso':         -1,
     'Custo uniforme': -1
   }
+  method_time = {
+    'BFS':            0,
+    'DFS':            0,
+    'A*':             0,
+    'Guloso':         0,
+    'Custo uniforme': 0
+  }
 }
 function retry(){
   world.resetStatus()
@@ -122,6 +138,7 @@ function retry(){
   foodCounter = max(0, foodCounter)
   dropdown.selected('Selecione uma opção');
   started = false;
+  
 }
 function draw() {
   frameRate(1000)
@@ -129,7 +146,9 @@ function draw() {
 
   if (started){
     let end = func_search.next()
-
+    if(end.value == 0){
+      method_time[escolha] += 1
+    }
     //acontece uma vez
     if (end.value == 1){
       agent.path = search_method.path
@@ -138,6 +157,7 @@ function draw() {
       method_cost[escolha] = search_method.totalCost
       
     }
+  
 
     // acontece sempre depois do fim da busca
     if (end.done == 1){
@@ -176,24 +196,27 @@ function drawTable(){
   const names = ['BFS', 'DFS', 'A*', 'Guloso', 'Custo uniforme'];
   let height = 0;
 
-  let textString = 'TABELA DE CUSTOS';
+  let textString = 'Algoritmo: Energia, Iterações';
   height += textWidth('      ')
-  textSize(18)
+  textSize(11)
   fill(255, 255, 255);
   stroke(0, 0, 0)
   rect(width - 190, 150, textWidth(textString) + 20, height * (names.length + 1) + 20);
   fill(0, 0, 0);
   noStroke()
-  textAlign(CENTER, LEFT)
-  text(textString, width - 95, 150 + height);
+  textAlign(CENTER, CENTER)
+  text(textString, width - 103, 170);
   let i = 2;
   for(let name of names){
-    let textString = name + ': ' + method_cost[name];
-
     fill(0, 0, 0);
     noStroke()
-    textAlign(CENTER, LEFT)
-    text(textString, width - 95, 150 + height * i);
+    textAlign(LEFT, LEFT)
+    textSize(13)
+    
+    let textString = name + ' :\t' + method_cost[name] + ', ' + method_time[name];
+
+    
+    text(textString, width - 180, 150 + height * i);
 
     i++;
 
