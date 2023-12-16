@@ -64,11 +64,6 @@ function setup() {
     'Guloso':         0,
     'Custo uniforme': 0
   }
-  // trocar o nome das funções por search e chamar search_method.search
-  //func_bfs = bfs.se(world, new Node(agent.pos.x, agent.pos.y), food)
-  //func_dfs = dfs.dfs(world, new Node(agent.pos.x, agent.pos.y), food)
-  //func_uniform = uniform.uniform(world, new Node(agent.pos.x, agent.pos.y), food)
-  //func_astar = astar.astar(world, new Node(agent.pos.x, agent.pos.y), food)
 
 }
 function resetAgent(world){
@@ -96,8 +91,7 @@ function selecionarOpcao() {
   // Essa função será chamada quando uma opção for selecionada
   if(started) return;
   escolha = dropdown.value();
-  print('Opção selecionada: ' + escolha);
-  print("Started: " + started);
+
   
   if(escolha == 'BFS') search_method = new BFS(world.res);
   if(escolha == 'DFS') search_method = new DFS(world.res);
@@ -151,7 +145,6 @@ function draw() {
     //acontece uma vez
     if (end.value == 1){
       agent.path = search_method.path
-      print(agent.path[0])
       animationEnd = 0;
       method_cost[escolha] = search_method.totalCost
       
@@ -182,7 +175,6 @@ function drawCounter(){
   let textString = 'Comidas coletadas: ' + foodCounter;
   textSize(15)
   textAlign(CENTER, CENTER)
-  print(textString, textWidth(textString))
   
   fill(255, 255, 255);
   stroke(0, 0, 0)

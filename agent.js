@@ -17,30 +17,16 @@ class Agent{
         this.path = []
     }
 
-
-    move_unit(x, y){
-        x = int(x)
-        y = int(y)
-        if (abs(x) > 1 || abs(y) > 1){
-            print("Movimento inválido")
-        }
-
-        this.pos.x += x
-        this.pos.y += y
-
-    }
-
     move(x, y){
         x = int(x)
         y = int(y)
         if (abs(x - this.pos.x) > 1 || abs(y - this.pos.y) > 1){
             print("Movimento inválido")
+            return
         }
 
         this.pos.x = x
         this.pos.y = y
-
-        print(this.pos.x, this.pos.y)
 
     }
 
