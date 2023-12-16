@@ -23,10 +23,12 @@ class AStar {
         const dy = Math.abs(j - objectiveJ)
         const dist = Math.sqrt(dx * dx + dy * dy)
         let factor = 0
-        factor = randomGaussian(3/ ((1/averageCost) + (1/curCost) + (1/objCost)))
+        const harm = 3/ ((1/averageCost) + (1/curCost) + (1/objCost))
+        factor = randomGaussian(harm,
+                                sqrt((curCost - harm) **2 + (objCost - harm) **2) / 2)
         
 
-        return dist * factor
+        return (dist * factor)
     }
     *search(world, start, objective){
         /*

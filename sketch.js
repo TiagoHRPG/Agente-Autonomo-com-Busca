@@ -22,7 +22,7 @@ function setup() {
   createCanvas(canva_width + 200, canva_height);
   
   
-  world = new World(canva_width, canva_height, 72)
+  world = new World(canva_width, canva_height, 36)
   resetAgent(world)
   resetFood(world)
   
