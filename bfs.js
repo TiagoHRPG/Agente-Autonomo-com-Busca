@@ -6,7 +6,7 @@ class BFS{
         
         this.dx = [-1, 1, 0, 0]
         this.dy = [0, 0, -1, 1]
-
+        this.totalCost = 0
         this.res = res
 
         for(let i = 0; i < this.res; i++){

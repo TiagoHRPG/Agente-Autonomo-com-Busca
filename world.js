@@ -127,12 +127,14 @@ class World{
                 rect(x, y, this.blockWidth, this.blockHeight)
                 
                 if (this.terrain_status[i][j] == this.status['caminho']){
+                    push()
                     fill(color(0, 255, 0, 60));
                     rect(x, y, this.blockWidth, this.blockHeight)
                     fill(0, 0, 0, opacity)
                     textSize(this.blockHeight/2)
                     textAlign(CENTER, CENTER)
                     text(this.costs[this.terrain[i][j]], (i+1/2) * this.blockWidth, (j+1/2) * this.blockHeight)
+                    pop()
                 }
             }
         }

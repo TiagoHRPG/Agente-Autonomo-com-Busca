@@ -7,13 +7,18 @@ let dropdown;
 var func_search;
 var started = false;
 var goToNext = false;
-let button;
+let buttonReset;
+let buttonRetry;
+var foodCounter = 0;
+var animationEnd = 0;
+var method_cost = {};
+var escolha;
 
 function setup() {
   let canva_width = 864
   let canva_height = 864
 
-  createCanvas(canva_width, canva_height);
+  createCanvas(canva_width + 200, canva_height);
   
   
   world = new World(canva_width, canva_height, 18)
@@ -21,9 +26,11 @@ function setup() {
   resetFood(world)
   
   world.resetStatus()
-   
-  button = createButton('Regenerar');
-  button.position(canva_width + 20, 40);
+  
+  buttonRetry = createButton('Tentar novamente');
+  buttonRetry.position(canva_width + 20, 40);
+  buttonReset = createButton('Regenerar');
+  buttonReset.position(canva_width + 20, 70);
   //dropdown para selecao
   dropdown = createSelect();
   
@@ -42,7 +49,13 @@ function setup() {
   search_method = null
 
   func_search = null
-
+  method_cost = {
+    'BFS':            -1,
+    'DFS':            -1,
+    'A*':             -1,
+    'Guloso':         -1,
+    'Custo uniforme': -1
+  }
   // trocar o nome das funções por search e chamar search_method.search
   //func_bfs = bfs.se(world, new Node(agent.pos.x, agent.pos.y), food)
   //func_dfs = dfs.dfs(world, new Node(agent.pos.x, agent.pos.y), food)
@@ -73,10 +86,11 @@ function resetFood(world){
 }
 function selecionarOpcao() {
   // Essa função será chamada quando uma opção for selecionada
-  let escolha = dropdown.value();
+  if(started) return;
+  escolha = dropdown.value();
   print('Opção selecionada: ' + escolha);
   print("Started: " + started);
-  if(started) return;
+  
   if(escolha == 'BFS') search_method = new BFS(world.res);
   if(escolha == 'DFS') search_method = new DFS(world.res);
   if(escolha == 'A*') search_method = new AStar(world.res);
@@ -84,7 +98,6 @@ function selecionarOpcao() {
   if(escolha == 'Custo uniforme') search_method = new Uniform(world.res);
   func_search = search_method.search(world, new Node(agent.pos.x, agent.pos.y), food);
   started = true;
-  
 
 
 }
@@ -92,6 +105,20 @@ function regenerate(){
   world.resetStatus()
   resetAgent(world)
   resetFood(world)
+  dropdown.selected('Selecione uma opção');
+  started = false;
+  method_cost = {
+    'BFS':            -1,
+    'DFS':            -1,
+    'A*':             -1,
+    'Guloso':         -1,
+    'Custo uniforme': -1
+  }
+}
+function retry(){
+  world.resetStatus()
+  agent = new Agent(world.blockWidth, agent.originalPos.x, agent.originalPos.y);
+  if(animationEnd) foodCounter -= 1;
   dropdown.selected('Selecione uma opção');
   started = false;
 }
@@ -106,11 +133,18 @@ function draw() {
     if (end.value == 1){
       agent.path = search_method.path
       print(agent.path[0])
+      animationEnd = 0;
+      method_cost[escolha] = search_method.totalCost
+      
     }
 
     // acontece sempre depois do fim da busca
     if (end.done == 1){
       agent.execute_path(world);
+      if(agent.pos.x == food.x && agent.pos.y == food.y && animationEnd == 0){
+        foodCounter += 1;
+        animationEnd = 1;
+      }
     }
   }
 
@@ -119,10 +153,51 @@ function draw() {
 
   draw_food()
   agent.draw(world);
-  button.mousePressed(regenerate);
-  
+  buttonReset.mousePressed(regenerate);
+  buttonRetry.mousePressed(retry);
+  drawCounter();
+  drawTable();
 }
+function drawCounter(){
+  let textString = 'Comida coletada: ' + foodCounter;
+  textSize(18)
+  textAlign(CENTER, CENTER)
+  print(textString, textWidth(textString))
+  
+  fill(255, 255, 255);
+  stroke(0, 0, 0)
+  rect(width - 190, 100, textWidth(textString) + 20, 40);
+  fill(0, 0, 0);
+  noStroke()
+  text(textString, width - 190, 100, textWidth(textString) + 20, 40);
+}
+function drawTable(){
+  const names = ['BFS', 'DFS', 'A*', 'Guloso', 'Custo uniforme'];
+  let height = 0;
 
+  let textString = 'TABELA DE CUSTOS';
+  height += textWidth('      ')
+  textSize(18)
+  fill(255, 255, 255);
+  stroke(0, 0, 0)
+  rect(width - 190, 150, textWidth(textString) + 20, height * (names.length + 1) + 20);
+  fill(0, 0, 0);
+  noStroke()
+  textAlign(CENTER, LEFT)
+  text(textString, width - 95, 150 + height);
+  let i = 2;
+  for(let name of names){
+    let textString = name + ': ' + method_cost[name];
+
+    fill(0, 0, 0);
+    noStroke()
+    textAlign(CENTER, LEFT)
+    text(textString, width - 95, 150 + height * i);
+
+    i++;
+
+  }
+}
 function draw_food(){
   fill(160, 32, 240);
   stroke(255, 255, 255);
