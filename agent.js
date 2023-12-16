@@ -11,7 +11,8 @@ class Agent{
     constructor(headSize, x, y){
         this.headSize = headSize;
         this.pos = createVector(int(x), int(y)); // será o índice da matriz do mundo
-
+        i = 1;
+        time = 0;
         this.path = []
     }
 
