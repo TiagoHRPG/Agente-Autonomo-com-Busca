@@ -22,7 +22,7 @@ function setup() {
   createCanvas(canva_width + 200, canva_height);
   
   
-  world = new World(canva_width, canva_height, 18)
+  world = new World(canva_width, canva_height, 72)
   resetAgent(world)
   resetFood(world)
   
@@ -179,7 +179,7 @@ function draw() {
   drawTable();
 }
 function drawCounter(){
-  let textString = 'Comida coletada: ' + foodCounter;
+  let textString = 'Comidas coletadas: ' + foodCounter;
   textSize(18)
   textAlign(CENTER, CENTER)
   print(textString, textWidth(textString))
