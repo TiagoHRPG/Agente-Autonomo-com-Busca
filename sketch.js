@@ -3,6 +3,7 @@ var execute = 0;
 
 var i = 0
 var food;
+let dropdown;
 var func_search;
 
 function setup() {
@@ -27,6 +28,7 @@ function setup() {
     foodI = int(random(world.res))
     foodJ = int(random(world.res))
   }
+
   food = new Node(foodI, foodJ)
   
   world.resetStatus()
@@ -34,6 +36,19 @@ function setup() {
   dfs = new DFS(world.res)
   uniform = new Uniform(world.res)
   astar = new AStar(world.res)
+
+  //dropdown para selecao
+  dropdown = createSelect();
+  
+  // Adicione opções ao dropdown
+  dropdown.option('BFS');
+  dropdown.option('DFS');
+  dropdown.option('A*');
+  dropdown.option('Guloso');
+  dropdown.option('Custo uniforme');
+  
+  dropdown.position(canva_width + 20, 10);
+  dropdown.changed(selecionarOpcao);
 
   search_method = bfs
 
@@ -47,7 +62,11 @@ function setup() {
 
 }
 
-
+function selecionarOpcao() {
+  // Essa função será chamada quando uma opção for selecionada
+  let escolha = dropdown.value();
+  print('Opção selecionada: ' + escolha);
+}
 
 function draw() {
   frameRate(1000)
